@@ -11,6 +11,7 @@ fi
 
 # Convert the PDF file to a single text file, save in top directory for now??
 pdftotext "$1" original.txt
+echo "Converted $1 to original.txt"
 
 # Split the text file into multiple files with no more than 1000 words/lines/bytes? each
 split --additional-suffix=.txt --suffix-length=4 --numeric-suffixes=1 --lines 10 original.txt summary/original_
