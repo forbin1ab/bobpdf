@@ -12,14 +12,16 @@ fi
 # Convert the PDF file to a single text file, save in top directory for now??
 pdftotext "$1" original.txt
 
-# Split the text file into multiple files with no more than 1000 words/lines/bytes? each
-split --additional-suffix=.txt --suffix-length=4 --numeric-suffixes=1 --lines 10 original.txt summary/original_
+# Split the text file into multiple files with no more than 50 words/lines/bytes? each
+# TODO need better splitting logic based on words NOT lines
+split --additional-suffix=.txt --suffix-length=4 --numeric-suffixes=1 --lines 50 original.txt summary/original_
 echo "Chunked sequential files of original created in summary directory."
 
 echo "creatings summaries for $0..." 
 # iterate through split sequential original files and generate split sequential summary files
 for FILE in ./summary/original_*.txt; 
 do
+  # may need throttling logic to deal with sgpt rate limiting
   base_file_name=$(basename "$FILE")
   base_directory=${FILE%/*} # Get the base directory
   echo  "processing $base_directory/$base_file_name"

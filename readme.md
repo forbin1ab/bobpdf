@@ -11,6 +11,19 @@ then uses a linux command to break the text file into smaller text files
 uses chatpgt to create summary files for each of the smaller text files
 concantenate summary files?
 
+# Bash syntax notes
+$var substitutes var with string variable var
+This substitution occurs in "" strings but does NOT occur in '' strings
+Note try to use "" where ever possible since weird stuff can happen in strings that have embedded spaces or other chars if you dont...
+If your substitution variable butts up against another literal use {} as in {$file}_old.txt
+$() is command substitution and takes stdout of prog and inserts it as string, can also use backticks``
+  eg. mkdir $(seq 1 5) # makes dirs 1-5
+  eg. a=$(echo 'hello' | tr '[:lower:]' '[:upper:]')
+  Note that trailing newlines get eliminated
+$(( )) is used for basic math
+  eg. echo "42 - 10 is...$(( 42 - 10))"
+ The global variable IFS is what Bash uses to split a string of expanded into separate words
+
 
 
 # Usage
@@ -57,6 +70,19 @@ if [ $line_count -gt 0 ]; then
 fi
 ```
 
+potential logic for sequence numbers
+'''
+    if [ -f "$file" ]; then
+        # Get the file extension
+        extension="${file##*.}"
+        # Generate the new filename with the 4-digit sequence number
+        new_filename="$(printf "%04d" $seq).${file%.*}.${extension}"
+        # Rename the file
+        mv "$file" "$new_filename"
+        # Increment the sequence number
+        seq=$((seq+1))
+    fi
+'''
 
 
 # Environment prep
